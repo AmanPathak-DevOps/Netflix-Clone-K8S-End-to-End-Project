@@ -45,7 +45,7 @@
   <p align="center">Watch Page with customer contol bar</p>
 </div>
 
-## Prerequests
+## Prerequesites
 
 - Create an account if you don't have on [TMDB](https://www.themoviedb.org/).
   Because I use its free API to consume movie/tv data.
