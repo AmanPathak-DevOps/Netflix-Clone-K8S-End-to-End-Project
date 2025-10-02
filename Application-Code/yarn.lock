@@ -660,11 +660,6 @@
   resolved "https://registry.yarnpkg.com/@types/use-sync-external-store/-/use-sync-external-store-0.0.3.tgz#b6725d5f4af24ace33b36fafd295136e75509f43"
   integrity sha512-EwmlvuaxPNej9+T4v5AuBPJa2x2UOJVdjCtDHgcDqitUeOtjnJKJ+apYjVcAoBEMjKW1VVFGZLUb5+qqa09XFA==
 
-"@types/video.js@^7.3.51":
-  version "7.3.51"
-  resolved "https://registry.yarnpkg.com/@types/video.js/-/video.js-7.3.51.tgz#ce69e02681ed6ed8abe61bb3802dd032a74d63e8"
-  integrity sha512-xLlt/ZfCuWYBvG2MRn018RvaEplcK6dI63aOiVUeeAWFyjx3Br1hL749ndFgbrvNdY4m9FoHG1FQ/PB6IpfSAQ==
-
 "@videojs/http-streaming@3.0.2":
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/@videojs/http-streaming/-/http-streaming-3.0.2.tgz#3498dacf4bc66ec1b663b1ec710ca62a037ea8b2"
