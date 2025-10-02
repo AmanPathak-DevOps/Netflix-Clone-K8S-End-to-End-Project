@@ -1,0 +1,74 @@
+name: '🔨 Infrastructure Configuring using Terraform on AWS' 
+
+on: 
+  workflow_dispatch:
+    inputs:
+      action:
+        description: 'Terraform Action'
+        options:
+          - plan
+          - apply
+          - destroy
+        required: true
+        default: 'plan'
+
+env:
+  AWS_REGION: us-east-1
+  AWS_ACCESS_KEY: ${{ secrets.AWS_ACCESS_KEY }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+permissions:
+  contents: read
+
+
+jobs:
+  infrastructure-setup-using-terraform:
+    name: Terraform ${{ github.event.input.actions }}
+    runs-on: ubuntu-24.04
+    environment: production
+
+    defaults:
+      run:
+        shell: bash
+        working-directory: Terraform
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Setting Up the Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "1.13.3"
+          terraform_wrapper: true
+
+      - name: Cache Terraform
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.terraform.d/plugin-cache
+            .terraform
+          key: ${{ runner.os }}-terraform-${{ hashFiles('**/*.tf') }}
+          restore-keys: |
+            ${{ runner.os }}-terraform-
+          
+      - name: Initialising the Terraform
+        run: terraform init
+
+      - name: Terraform Format Check
+        run: terraform fmt -check --diff
+
+      - name: Terraform Validate
+        run: terraform validate
+
+      - name: Terraform Plan
+        if: ${{ github.event.inputs.action == 'plan' }}
+        run: terraform plan -input=false
+
+      - name: Terraform Apply
+        if: ${{ github.event.inputs.action == 'apply' }}
+        run: terraform apply -input=false
+
+      - name: Terraform destroy
+        if: ${{ github.event.inputs.action == 'destroy' }}
+        run: terraform destroy -input=false
