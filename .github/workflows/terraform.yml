@@ -4,6 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       action:
+        type: choice
         description: 'Terraform Action'
         options:
           - plan
