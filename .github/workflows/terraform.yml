@@ -42,6 +42,7 @@ jobs:
         with:
           terraform_version: "1.13.3"
           terraform_wrapper: true
+          cli_config_credentials_token: ${{ secrets. TF_API_TOKEN }}
 
       - name: Cache Terraform
         uses: actions/cache@v4
