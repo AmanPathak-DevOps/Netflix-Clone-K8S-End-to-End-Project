@@ -20,11 +20,11 @@ resource "aws_iam_role" "role" {
   }
 }
 
-resource "aws_iam_role_policies_exclusive" "example" {
-  role_name    = aws_iam_role.role.name
-  policy_names = ["arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"]
+resource "aws_iam_role_policy_attachment" "ssm_managed_policy" {
+  role       = aws_iam_role.role.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
 }
 
 resource "aws_iam_instance_profile" "iam-instance-profile" {
-  role = aws_iam_role.role.arn
+  role = aws_iam_role.role.name
 }

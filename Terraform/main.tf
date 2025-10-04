@@ -12,7 +12,7 @@ resource "aws_instance" "ec2" {
   ami                  = data.aws_ami.ubuntu.id
   subnet_id            = aws_subnet.public-subnet[count.index].id
   instance_type        = var.ec2_instance_type
-  iam_instance_profile = aws_iam_instance_profile.iam-instance-profile.arn
+  iam_instance_profile = aws_iam_instance_profile.iam-instance-profile.name
   root_block_device {
     volume_size = var.ec2_volume_size
     volume_type = var.ec2_volume_type
