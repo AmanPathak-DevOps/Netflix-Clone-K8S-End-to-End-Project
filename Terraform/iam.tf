@@ -26,5 +26,6 @@ resource "aws_iam_role_policy_attachment" "ssm_managed_policy" {
 }
 
 resource "aws_iam_instance_profile" "iam-instance-profile" {
+  name = "${local.org}-${local.project}-${local.env}-instance-profile"
   role = aws_iam_role.role.name
 }
