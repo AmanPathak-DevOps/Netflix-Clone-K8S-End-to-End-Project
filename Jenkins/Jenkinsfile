@@ -19,7 +19,7 @@ pipeline{
         }
         stage("Sonarqube Analysis"){
             steps{
-                dir('scripts') {
+                dir('Application-Code') {
                     withSonarQubeEnv('sonar-server') {
                         sh ''' $SCANNER_HOME/bin/sonar-scanner -Dsonar.projectName=NetflixClone \
                         -Dsonar.projectKey=NetflixClone \
@@ -37,7 +37,7 @@ pipeline{
         }
         stage('Install Dependencies') {
             steps {
-                dir('scripts') {
+                dir('Application-Code') {
                     sh "npm install -g @sonar/scan"
                 }
             }
