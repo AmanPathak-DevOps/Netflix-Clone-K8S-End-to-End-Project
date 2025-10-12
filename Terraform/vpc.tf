@@ -69,7 +69,7 @@ resource "aws_route_table_association" "public-rta" {
   ]
 }
 
-resource "aws_security_group" "eks-cluster-sg" {
+resource "aws_security_group" "default-ec2-sg" {
   name        = "${local.org}-${local.project}-${local.env}-sg"
   description = "Default Security Group"
 
