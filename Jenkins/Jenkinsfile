@@ -17,12 +17,22 @@ pipeline{
                 git branch: 'master', url: 'https://github.com/AmanPathak-DevOps/Netflix-Clone-K8S-End-to-End-Project.git'
             }
         }
-        stage("Sonarqube Analysis"){
-            steps{
+        stage("Sonarqube Analysis") {
+            steps {
                 dir('Application-Code') {
                     withSonarQubeEnv('sonar-server') {
-                        sh ''' $SCANNER_HOME/bin/sonar-scanner -Dsonar.projectName=NetflixClone \
+                        // Capture Node path from Jenkins NodeJS tool
+                        sh '''
+                        export NODE_PATH=$(which node)
+                        echo "Node executable path: $NODE_PATH"
+        
+                        $SCANNER_HOME/bin/sonar-scanner \
                         -Dsonar.projectKey=NetflixClone \
+                        -Dsonar.projectName=NetflixClone \
+                        -Dsonar.sources=src \
+                        -Dsonar.language=ts \
+                        -Dsonar.nodejs.executable=$NODE_PATH \
+                        -Dsonar.exclusions=dist/**,node_modules/**,public/** \
                         '''
                     }
                 }
