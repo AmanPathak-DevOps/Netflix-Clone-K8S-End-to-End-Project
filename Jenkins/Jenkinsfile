@@ -103,15 +103,16 @@ pipeline{
                 sh "trivy image avian19/netflix:latest > trivyimage.txt" 
             }
         }
-        stage('Deploy to Kubernetes'){
-            steps{
-                script{
+        stage('Deploy to Kubernetes') {
+            steps {
+                script {
                     dir('Kubernetes') {
                         withKubeConfig(credentialsId: 'k8s') {
-                            kubectl('apply -f deployment.yml')
-                            kubectl('apply -f service.yml')
-                            kubectl('get svc')
-                        }  
+                            sh 'kubectl apply -f deployment.yml'
+                            sh 'kubectl apply -f service.yml'
+                            sh 'kubectl get svc'
+                            sh 'kubectl get all'
+                        }
                     }
                 }
             }
