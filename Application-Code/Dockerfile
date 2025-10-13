@@ -24,8 +24,6 @@ RUN yarn build && yarn cache clean
 # ---------- Stage 2: NGINX serve ----------
 FROM nginx:stable-alpine
 
-# Security: create non-root user
-RUN adduser -D appuser
 
 # Set working directory
 WORKDIR /usr/share/nginx/html
@@ -35,12 +33,6 @@ RUN rm -rf ./*
 
 # Copy built app from builder
 COPY --from=builder /app/dist .
-
-# Adjust permissions for non-root user
-RUN chown -R appuser:appuser /usr/share/nginx/html
-
-# Switch to non-root
-USER appuser
 
 # Expose HTTP port
 EXPOSE 80

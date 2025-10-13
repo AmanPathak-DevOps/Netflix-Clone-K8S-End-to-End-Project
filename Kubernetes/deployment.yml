@@ -14,16 +14,8 @@ spec:
       labels:
         app: netflix-app
     spec:
-      securityContext:
-        fsGroup: 101
       containers:
       - name: netflix-app
         image: avian19/netflix:latest
         ports:
         - containerPort: 80
-        volumeMounts:
-        - name: nginx-cache
-          mountPath: /var/cache/nginx
-      volumes:
-      - name: nginx-cache
-        emptyDir: {}
