@@ -25,7 +25,7 @@ pipeline{
                         sh '''
                         export NODE_PATH=$(which node)
                         echo "Node executable path: $NODE_PATH"
-        
+
                         $SCANNER_HOME/bin/sonar-scanner \
                         -Dsonar.projectKey=NetflixClone \
                         -Dsonar.projectName=NetflixClone \
@@ -55,8 +55,7 @@ pipeline{
         stage('OWASP DP SCAN') {
             steps {
                 dir('Application-Code') {
-                    dependencyCheck additionalArguments: '--scan ./ --disableYarnAudit --disableNodeAudit', odcInstallation: 'owasp-dp-check'
-                    dependencyCheckPublisher pattern: '**/dependency-check-report.xml'
+                    dependencyCheck additionalArguments: '--scan ./', odcInstallation: 'owasp-dp-check'
                 }
             }
         }
