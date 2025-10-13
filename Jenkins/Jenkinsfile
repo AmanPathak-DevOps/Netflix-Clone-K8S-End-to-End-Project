@@ -17,45 +17,47 @@ pipeline{
                 git branch: 'master', url: 'https://github.com/AmanPathak-DevOps/Netflix-Clone-K8S-End-to-End-Project.git'
             }
         }
-        stage("Sonarqube Analysis") {
+        stage('Install Dependencies') {
+            steps {
+                dir('Application-Code') {
+                    // Install project dependencies (needed for OWASP + build)
+                    sh 'npm install'
+                }
+            }
+        }
+        stage("SonarQube Analysis") {
             steps {
                 dir('Application-Code') {
                     withSonarQubeEnv('sonar-server') {
-                        // Capture Node path from Jenkins NodeJS tool
+                        // Run SonarQube scanner using npx (no global install)
                         sh '''
-                        export NODE_PATH=$(which node)
-                        echo "Node executable path: $NODE_PATH"
-
-                        $SCANNER_HOME/bin/sonar-scanner \
+                        echo "🔍 Starting SonarQube Analysis..."
+                        npx @sonar/scan \
                         -Dsonar.projectKey=NetflixClone \
                         -Dsonar.projectName=NetflixClone \
                         -Dsonar.sources=src \
                         -Dsonar.language=ts \
-                        -Dsonar.nodejs.executable=$NODE_PATH \
                         -Dsonar.exclusions=dist/**,node_modules/**,public/** \
+                        -Dsonar.host.url=$SONAR_HOST_URL \
+                        -Dsonar.login=$SONAR_AUTH_TOKEN
                         '''
                     }
                 }
             }
         }
-        stage("Quality Gate"){
-           steps {
-                script {
-                    waitForQualityGate abortPipeline: false, credentialsId: 'sonar-token' 
-                }
-            } 
-        }
-        stage('Install Dependencies') {
+        stage("Quality Gate") {
             steps {
-                dir('Application-Code') {
-                    sh "npm install -g @sonar/scan"
-                }
+                    script {
+                        waitForQualityGate abortPipeline: false, credentialsId: 'sonar-token' 
+                    }
+                } 
             }
-        }
-        stage('OWASP DP SCAN') {
+        stage('OWASP Dependency Check') {
             steps {
                 dir('Application-Code') {
-                    dependencyCheck additionalArguments: '--scan ./', odcInstallation: 'owasp-dp-check'
+                    echo "🔒 Running OWASP Dependency Check..."
+                    dependencyCheck additionalArguments: '--scan ./ --format XML --out .', odcInstallation: 'owasp-dp-check'
+                    dependencyCheckPublisher pattern: '**/dependency-check-report.xml'
                 }
             }
         }
