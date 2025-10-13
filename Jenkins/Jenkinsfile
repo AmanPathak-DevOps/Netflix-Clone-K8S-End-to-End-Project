@@ -73,9 +73,14 @@ pipeline{
                 dir('Application-Code') {
                     script{
                        withDockerRegistry(credentialsId: 'docker', toolName: 'docker'){   
-                           sh "docker system prune -f"
-                           sh "docker container prune -f"
-                           sh "docker build --build-arg TMDB_V3_API_KEY=8b174e589e2f03f9fd8123907bd7800c -t netflix ."
+                           
+                           withCredentials([string(credentialsId: 'tmdb-api', variable: 'TMDB_API_KEY')]) {
+                                sh """
+                                    docker build \
+                                    --build-arg TMDB_V3_API_KEY=${TMDB_API_KEY} \
+                                    -t netflix .
+                                """
+                            }
                         }
                     }
                 }
