@@ -23,4 +23,7 @@ resource "aws_instance" "ec2" {
     Name = "${local.org}-${local.project}-${local.env}-${local.instance_names[count.index]}"
     Env  = "${local.env}"
   }
+  lifecycle {
+    prevent_destroy = true
+  }
 }
