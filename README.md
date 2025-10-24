@@ -91,8 +91,8 @@ This project simulates a real enterprise-grade setup where a **React-based Netfl
 | ☸️ **Part 4** | *Kubernetes Cluster Setup + Deployment* | Full app deployment in K8s |
 | 📊 **Part 5** | *Monitoring Setup* | End-to-end observability |
 
-📺 **Watch here:** [[YT Playlist Link](https://www.youtube.com/@aman-pathak)]  
-🧾 **Read on Medium:** [[Medium Blog Series Link](https://medium.com/@amanpathakdevops)]
+📺 **Watch here:** [YT Playlist Link](https://www.youtube.com/@aman-pathak)  
+🧾 **Read on Medium:** [Medium Blog Series Link](https://medium.com/@amanpathakdevops)
 
 ---
 
